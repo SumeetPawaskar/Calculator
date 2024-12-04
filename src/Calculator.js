@@ -1,46 +1,54 @@
 import React, { useState } from 'react';
 
 const Calculator = () => {
-  const [input, setInput] = useState("");  // To hold the current input expression
-  const [output, setOutput] = useState(""); // To hold the result/output of the calculation
+  const [input, setInput] = useState("");  
+  const [output, setOutput] = useState(""); 
 
-  // Handle button clicks (numbers and operators)
+  
   const handleButtonClick = (value) => {
-    setInput(input + value);  // Append the clicked value (number or operator) to input
+    setInput(input + value); 
   };
 
-  // Handle clearing the input and output
+  
   const handleClear = () => {
     setInput("");
     setOutput("");
   };
 
-  // Handle the equal button (evaluate the expression)
+  
   const handleEvaluate = () => {
     try {
-      // Check if dividing by zero
-      if (input.includes("/0")) {
-        setOutput("Infinity");
+      
+      if (/[\+\-\*\/]$/.test(input)) {
+        setOutput("Error");  
+        return;
+      }
+
+      
+      if (input.includes("/0") && !input.includes("0/0")) {
+        setOutput("Infinity");  // 
+      } else if (input === "") {
+        setOutput("Error"); // 
       } else {
-        // Evaluate the expression using BODMAS
-        const result = eval(input);  // Using eval to evaluate the expression
+        
+        const result = eval(input); 
         if (Number.isNaN(result)) {
-          setOutput("NaN");  // If it's NaN, display 'NaN'
+          setOutput("NaN");  
         } else {
-          setOutput(result); // Display the result
+          setOutput(result); 
         }
       }
     } catch (error) {
-      setOutput("Error"); // If there's an error in the expression (e.g., invalid format), display 'Error'
+      setOutput("Error"); 
     }
   };
 
   return (
     <div className="calculator">
-      {/* Heading for the Calculator */}
+      
       <h1>React Calculator</h1>
       
-      {/* Display the input expression */}
+     
       <input 
         type="text" 
         value={input} 
@@ -48,12 +56,12 @@ const Calculator = () => {
         placeholder="0"
       />
       
-      {/* Display the output/result */}
+      
       <div className="output">
-        <p>Result: {output}</p> {/* Ensure this line is properly closed */}
+        <p>Result: {output}</p>
       </div>
 
-      {/* Buttons for numbers and operations */}
+      
       <div className="buttons">
         <button onClick={() => handleButtonClick("7")}>7</button>
         <button onClick={() => handleButtonClick("8")}>8</button>
